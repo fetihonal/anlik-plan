@@ -21,20 +21,36 @@ export type Profile = {
 export type Event = {
   id: string;
   title: string;
-  description: string | null;
-  event_type: string;
-  location: string | null;
-  address: string | null;
-  start_time: string;
-  end_time: string | null;
-  max_participants: number | null;
-  price: number | null;
-  image_url: string | null;
-  is_featured: boolean;
-  is_published: boolean;
-  created_at: string;
-  updated_at: string;
-  created_by: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  price: string;
+  category: string;
+  spots_left: number;
+  total_spots: number;
+  images: string[];
+  host: {
+    name: string;
+    image: string;
+    bio: string;
+  };
+  included_items: string[];
+  requirements: string[];
+  faq: Array<{
+    question: string;
+    answer: string;
+  }>;
+  is_featured?: boolean;
+  is_published?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  created_by?: string;
+  
+  // Client-side properties (not in database)
+  spotsLeft?: number;
+  totalSpots?: number;
+  includedItems?: string[];
 };
 
 export type EventParticipant = {

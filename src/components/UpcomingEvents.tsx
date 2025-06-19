@@ -3,56 +3,87 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Event } from '@/lib/supabase';
 
-// Sample upcoming events data
-const upcomingEvents = [
+// Fallback events data if no events are provided via props
+const fallbackEvents = [
   {
-    id: 1,
+    id: '1',
     title: 'Quiz Night: Film ve Diziler',
     date: '28 Haziran 2025',
     time: '19:30',
     location: 'Kadıköy Moda - Kafeka',
-    image: '/images/quiz-night-event.jpg',
+    images: ['/images/quiz-night-event.jpg'],
     category: 'Quiz Night',
     price: '150 TL',
-    spots: 12,
+    spotsLeft: 12,
+    totalSpots: 20,
+    description: '',
+    host: { name: '', image: '', bio: '' },
+    includedItems: [],
+    requirements: [],
+    faq: [],
   },
   {
-    id: 2,
+    id: '2',
     title: 'Yaz Temalı Fake Düğün',
     date: '5 Temmuz 2025',
     time: '20:00',
     location: 'Beşiktaş - Feriye',
-    image: '/images/fake-wedding-event.jpg',
+    images: ['/images/fake-wedding-event.jpg'],
     category: 'Fake Düğün',
     price: '250 TL',
-    spots: 8,
+    spotsLeft: 8,
+    totalSpots: 20,
+    description: '',
+    host: { name: '', image: '', bio: '' },
+    includedItems: [],
+    requirements: [],
+    faq: [],
   },
   {
-    id: 3,
+    id: '3',
     title: '80\'ler Temalı Parti',
     date: '12 Temmuz 2025',
     time: '21:00',
     location: 'Beyoğlu - Babylon',
-    image: '/images/themed-party-event.jpg',
+    images: ['/images/themed-party-event.jpg'],
     category: 'Temalı Partiler',
     price: '200 TL',
-    spots: 15,
+    spotsLeft: 15,
+    totalSpots: 30,
+    description: '',
+    host: { name: '', image: '', bio: '' },
+    includedItems: [],
+    requirements: [],
+    faq: [],
   },
   {
-    id: 4,
+    id: '4',
     title: 'Yeni Kariyer Speed Meeting',
     date: '19 Temmuz 2025',
     time: '18:00',
     location: 'Levent - WorkHub',
-    image: '/images/speed-meeting-event.jpg',
+    images: ['/images/speed-meeting-event.jpg'],
     category: 'Speed Meeting',
     price: '180 TL',
-    spots: 20,
+    spotsLeft: 20,
+    totalSpots: 40,
+    description: '',
+    host: { name: '', image: '', bio: '' },
+    includedItems: [],
+    requirements: [],
+    faq: [],
   },
 ];
 
-const UpcomingEvents = () => {
+interface UpcomingEventsProps {
+  events?: Event[];
+}
+
+const UpcomingEvents = ({ events }: UpcomingEventsProps) => {
+  // Use provided events or fallback to sample data
+  const displayEvents = events && events.length > 0 ? events : fallbackEvents;
   return (
     <section className="section bg-light">
       <div className="container-custom">
@@ -68,14 +99,14 @@ const UpcomingEvents = () => {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {upcomingEvents.map((event) => (
+          {displayEvents.map((event) => (
             <div key={event.id} className="card group">
               <div className="relative h-48 overflow-hidden">
                 <div className="absolute top-0 left-0 bg-primary text-white z-10 py-1 px-3 rounded-br-lg">
                   {event.category}
                 </div>
                 <Image
-                  src={event.image}
+                  src={event.images[0] || '/images/event-placeholder.jpg'}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -100,7 +131,7 @@ const UpcomingEvents = () => {
                   <span className="text-sm">{event.location}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-accent">Son {event.spots} kontenjan</span>
+                  <span className="text-sm text-accent">Son {event.spotsLeft} kontenjan</span>
                   <Link href={`/etkinlikler/${event.id}`} className="text-primary font-medium hover:underline">
                     Detaylar →
                   </Link>

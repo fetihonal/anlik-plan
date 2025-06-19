@@ -2,13 +2,34 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import UpcomingEvents from '@/components/UpcomingEvents';
 import EventFormats from '@/components/EventFormats';
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import { Event } from '@/lib/supabase';
 
 export const metadata = {
   title: 'Etkinlikler | Anlık Plan',
   description: 'Anlık Plan\'ın yaklaşan etkinlikleri ve etkinlik formatları hakkında bilgi edinin.',
 };
 
-export default function EventsPage() {
+async function getEvents() {
+  const supabase = createServerSupabaseClient();
+  
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('is_published', true)
+    .order('date', { ascending: true });
+  
+  if (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+  
+  return data as Event[];
+}
+
+export default async function EventsPage() {
+  const events = await getEvents();
+  
   return (
     <>
       <Navbar />
@@ -21,7 +42,7 @@ export default function EventsPage() {
             </p>
           </div>
         </div>
-        <UpcomingEvents />
+        <UpcomingEvents events={events} />
         <EventFormats />
       </main>
       <Footer />
