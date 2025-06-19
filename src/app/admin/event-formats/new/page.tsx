@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient, EventFormat } from '@/lib/supabase';
+import ImageUploader from '@/components/ImageUploader';
 
 export default function NewEventFormat() {
   const router = useRouter();
@@ -14,6 +15,10 @@ export default function NewEventFormat() {
     description: '',
     image: '',
   });
+  
+  const handleImageUploaded = (url: string) => {
+    setFormData(prev => ({ ...prev, image: url }));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -105,22 +110,19 @@ export default function NewEventFormat() {
         </div>
         
         <div className="mb-4">
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-            Görsel URL
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Görsel
           </label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            placeholder="/images/format-image.jpg"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
+          <ImageUploader
+            currentImageUrl={formData.image}
+            onImageUploaded={handleImageUploaded}
+            folder="formats"
           />
-          <p className="text-xs text-gray-500 mt-1">
-            Görsel dosyasını /public/images/ klasörüne ekleyin ve yolunu buraya yazın.
-          </p>
+          {!formData.image && (
+            <p className="text-xs text-red-500 mt-1">
+              Lütfen bir görsel yükleyin.
+            </p>
+          )}
         </div>
         
         <div className="flex justify-end space-x-2">

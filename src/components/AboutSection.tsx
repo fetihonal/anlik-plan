@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 const teamMembers = [
   {
     id: 1,
-    name: 'Ahmet Yılmaz',
-    role: 'Kurucu & Etkinlik Koordinatörü',
-    image: '/images/team-1.jpg',
-    bio: 'Sosyal topluluklar ve etkinlik organizasyonu konusunda 5 yıllık deneyime sahip.',
+    name: "Ahmet Yılmaz",
+    role: "Kurucu & Etkinlik Koordinatörü",
+    image: "/images/team-1.jpg",
+    bio: "Sosyal topluluklar ve etkinlik organizasyonu konusunda 5 yıllık deneyime sahip.",
   },
   {
     id: 2,
-    name: 'Zeynep Kaya',
-    role: 'Kreatif Direktör',
-    image: '/images/team-2.jpg',
-    bio: 'Yaratıcı konseptler ve benzersiz etkinlik formatları geliştirmede uzman.',
+    name: "Zeynep Kaya",
+    role: "Kreatif Direktör",
+    image: "/images/team-2.jpg",
+    bio: "Yaratıcı konseptler ve benzersiz etkinlik formatları geliştirmede uzman.",
   },
   {
     id: 3,
-    name: 'Burak Demir',
-    role: 'İş Geliştirme',
-    image: '/images/team-3.jpg',
-    bio: 'Sponsorluk anlaşmaları ve stratejik ortaklıklar konusunda deneyimli.',
+    name: "Burak Demir",
+    role: "İş Geliştirme",
+    image: "/images/team-3.jpg",
+    bio: "Sponsorluk anlaşmaları ve stratejik ortaklıklar konusunda deneyimli.",
   },
   {
     id: 4,
-    name: 'Elif Şahin',
-    role: 'Topluluk Yöneticisi',
-    image: '/images/team-4.jpg',
-    bio: 'Sosyal medya ve topluluk yönetimi konusunda uzman.',
+    name: "Elif Şahin",
+    role: "Topluluk Yöneticisi",
+    image: "/images/team-4.jpg",
+    bio: "Sosyal medya ve topluluk yönetimi konusunda uzman.",
   },
 ];
 
@@ -37,26 +37,27 @@ const AboutSection = () => {
   return (
     <section className="section bg-white">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Hakkımızda</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Anlık Plan'ın hikayesi ve arkasındaki ekip.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           {/* Our Story */}
           <div>
             <h3 className="text-2xl font-bold mb-6">Hikayemiz</h3>
             <div className="space-y-4 text-gray-600">
               <p>
-                Anlık Plan, 2023 yılında şehir hayatında yeni insanlarla tanışmanın zorluğunu yaşayan bir grup arkadaş tarafından kuruldu. Geleneksel sosyalleşme yöntemlerinin dışında, eğlenceli ve yaratıcı bir topluluk oluşturma fikriyle yola çıktık.
+                Anlık Plan, 2023 yılında şehir hayatında yeni insanlarla
+                tanışmanın zorluğunu yaşayan bir grup arkadaş tarafından
+                kuruldu. Geleneksel sosyalleşme yöntemlerinin dışında, eğlenceli
+                ve yaratıcı bir topluluk oluşturma fikriyle yola çıktık.
               </p>
               <p>
-                İlk etkinliğimizi sadece 15 kişiyle gerçekleştirdik. Bugün ise aylık 20'den fazla etkinlik düzenliyor ve 5000'den fazla üyeye sahip bir topluluk olarak büyümeye devam ediyoruz.
+                İlk etkinliğimizi sadece 15 kişiyle gerçekleştirdik. Bugün ise
+                aylık 20'den fazla etkinlik düzenliyor ve 5000'den fazla üyeye
+                sahip bir topluluk olarak büyümeye devam ediyoruz.
               </p>
               <p>
-                Misyonumuz, şehir hayatında yalnızlaşan bireylere samimi bir ortamda yeni arkadaşlıklar kurabilecekleri, eğlenceli ve yaratıcı etkinlikler sunmak. Vizyonumuz ise Türkiye'nin en büyük sosyal etkinlik topluluğu olmak.
+                Misyonumuz, şehir hayatında yalnızlaşan bireylere samimi bir
+                ortamda yeni arkadaşlıklar kurabilecekleri, eğlenceli ve
+                yaratıcı etkinlikler sunmak. Vizyonumuz ise Türkiye'nin en büyük
+                sosyal etkinlik topluluğu olmak.
               </p>
             </div>
           </div>
@@ -67,49 +68,101 @@ const AboutSection = () => {
             <div className="space-y-6">
               <div className="flex">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
                   </svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">Kapsayıcılık</h4>
-                  <p className="text-gray-600">Herkesin kendini rahat ve güvende hissedeceği bir ortam yaratmak.</p>
+                  <p className="text-gray-600">
+                    Herkesin kendini rahat ve güvende hissedeceği bir ortam
+                    yaratmak.
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex">
                 <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-secondary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">Eğlence</h4>
-                  <p className="text-gray-600">Her etkinliğimizde eğlenceyi ve pozitif enerjiyi ön planda tutmak.</p>
+                  <p className="text-gray-600">
+                    Her etkinliğimizde eğlenceyi ve pozitif enerjiyi ön planda
+                    tutmak.
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex">
                 <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-accent"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">Yaratıcılık</h4>
-                  <p className="text-gray-600">Sıradanlığın dışına çıkan, özgün ve yaratıcı etkinlik formatları geliştirmek.</p>
+                  <p className="text-gray-600">
+                    Sıradanlığın dışına çıkan, özgün ve yaratıcı etkinlik
+                    formatları geliştirmek.
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
                   </svg>
                 </div>
                 <div>
                   <h4 className="font-bold text-lg">Samimiyet</h4>
-                  <p className="text-gray-600">Gerçek bağlantılar kurmayı teşvik eden samimi bir ortam yaratmak.</p>
+                  <p className="text-gray-600">
+                    Gerçek bağlantılar kurmayı teşvik eden samimi bir ortam
+                    yaratmak.
+                  </p>
                 </div>
               </div>
             </div>
@@ -121,7 +174,9 @@ const AboutSection = () => {
           <h3 className="text-2xl font-bold mb-8 text-center">Ekibimiz</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member) => (
-              <div key={member.id} className="bg-light rounded-2xl overflow-hidden text-center">
+              <div
+                key={member.id}
+                className="bg-light rounded-2xl overflow-hidden text-center">
                 <div className="relative h-64 w-full">
                   <Image
                     src={member.image}

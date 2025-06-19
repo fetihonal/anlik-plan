@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@/lib/supabase';
 import type { Event } from '@/lib/supabase';
+import ImageUploader from '@/components/ImageUploader';
 
 export default function EventEditPage({ params }: { params: { id: string } }) {
+  // Next.js 14 ve sonrası için params'ı doğrudan kullanabiliriz
+  // Eğer params bir Promise olarak geliyorsa, useEffect içinde kontrol edeceğiz
   const router = useRouter();
   const supabase = createBrowserClient();
   const isNewEvent = params.id === 'new';
@@ -64,8 +67,32 @@ export default function EventEditPage({ params }: { params: { id: string } }) {
     requirements: [],
     faq: [],
     is_featured: false,
-    is_published: true,
+    is_published: false
   });
+
+  const handleImageUploaded = (url: string, index: number = -1) => {
+    setEvent(prev => {
+      const newImages = [...prev.images];
+      if (index >= 0) {
+        // Mevcut görseli güncelle
+        newImages[index] = url;
+      } else {
+        // Yeni görsel ekle
+        newImages.push(url);
+      }
+      return { ...prev, images: newImages };
+    });
+  };
+
+  const handleHostImageUploaded = (url: string) => {
+    setEvent(prev => ({
+      ...prev,
+      host: {
+        ...prev.host,
+        image: url
+      }
+    }));
+  };
 
   useEffect(() => {
     async function fetchEvent() {
@@ -351,46 +378,38 @@ export default function EventEditPage({ params }: { params: { id: string } }) {
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Images
             </label>
-            <div className="border border-gray-300 rounded-md p-3 space-y-2">
+            <div className="border border-gray-300 rounded-md p-3 space-y-4">
               {event.images.map((imageUrl, index) => (
-                <div key={index} className="flex items-center">
-                  <input
-                    type="text"
-                    value={imageUrl}
-                    onChange={(e) => {
-                      const newImages = [...event.images];
-                      newImages[index] = e.target.value;
-                      setEvent(prev => ({ ...prev, images: newImages }));
-                    }}
-                    placeholder="/images/event-image.jpg"
-                    className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                <div key={index} className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">Görsel {index + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newImages = [...event.images];
+                        newImages.splice(index, 1);
+                        setEvent(prev => ({ ...prev, images: newImages }));
+                      }}
+                      className="p-1 text-red-500 hover:text-red-700"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                  <ImageUploader
+                    currentImageUrl={imageUrl}
+                    onImageUploaded={(url) => handleImageUploaded(url, index)}
+                    folder="events"
                   />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newImages = [...event.images];
-                      newImages.splice(index, 1);
-                      setEvent(prev => ({ ...prev, images: newImages }));
-                    }}
-                    className="ml-2 p-2 text-red-500 hover:text-red-700"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                  </button>
                 </div>
               ))}
               <button
                 type="button"
-                onClick={() => {
-                  setEvent(prev => ({
-                    ...prev,
-                    images: [...prev.images, '']
-                  }));
-                }}
-                className="w-full px-3 py-2 border border-dashed border-gray-300 rounded-md text-gray-500 hover:text-gray-700 hover:border-gray-500 focus:outline-none"
+                onClick={() => handleImageUploaded('')}
+                className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                + Yeni Görsel Ekle
+                Yeni Görsel Ekle
               </button>
             </div>
           </div>
@@ -415,15 +434,12 @@ export default function EventEditPage({ params }: { params: { id: string } }) {
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Host Image URL
+                  Host Image
                 </label>
-                <input
-                  type="text"
-                  name="host.image"
-                  value={event.host?.image || ''}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  required
+                <ImageUploader
+                  currentImageUrl={event.host?.image || ''}
+                  onImageUploaded={handleHostImageUploaded}
+                  folder="hosts"
                 />
               </div>
               <div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient, EventFormat } from '@/lib/supabase';
 import { use } from 'react';
+import ImageUploader from '@/components/ImageUploader';
 
 export default function EditEventFormat({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
@@ -18,6 +19,10 @@ export default function EditEventFormat({ params }: { params: Promise<{ id: stri
     description: '',
     image: '',
   });
+  
+  const handleImageUploaded = (url: string) => {
+    setFormData(prev => ({ ...prev, image: url }));
+  };
 
   // Fetch event format data
   useEffect(() => {
@@ -148,35 +153,18 @@ export default function EditEventFormat({ params }: { params: Promise<{ id: stri
         </div>
         
         <div className="mb-4">
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-            Görsel URL
-          </label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Görsel dosyasını /public/images/ klasörüne ekleyin ve yolunu buraya yazın.
-          </p>
-        </div>
-        
-        <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Önizleme
+            Görsel
           </label>
-          {formData.image && (
-            <div className="mt-2 relative h-40 w-full md:w-1/2 lg:w-1/3 border rounded overflow-hidden">
-              <img
-                src={formData.image}
-                alt="Format önizleme"
-                className="object-cover w-full h-full"
-              />
-            </div>
+          <ImageUploader
+            currentImageUrl={formData.image}
+            onImageUploaded={handleImageUploaded}
+            folder="formats"
+          />
+          {!formData.image && (
+            <p className="text-xs text-red-500 mt-1">
+              Lütfen bir görsel yükleyin.
+            </p>
           )}
         </div>
         

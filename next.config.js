@@ -6,7 +6,8 @@ const nextConfig = {
       'images.unsplash.com',
       'source.unsplash.com',
       'picsum.photos',
-      'encrypted-tbn0.gstatic.com'
+      'encrypted-tbn0.gstatic.com',
+      'bzyskxkobbtdwfjqijsj.supabase.co'
     ],
   },
   experimental: {
