@@ -1,39 +1,48 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const teamMembers = [
-  {
-    id: 1,
-    name: "Ahmet Yılmaz",
-    role: "Kurucu & Etkinlik Koordinatörü",
-    image: "/images/team-1.jpg",
-    bio: "Sosyal topluluklar ve etkinlik organizasyonu konusunda 5 yıllık deneyime sahip.",
-  },
-  {
-    id: 2,
-    name: "Zeynep Kaya",
-    role: "Kreatif Direktör",
-    image: "/images/team-2.jpg",
-    bio: "Yaratıcı konseptler ve benzersiz etkinlik formatları geliştirmede uzman.",
-  },
-  {
-    id: 3,
-    name: "Burak Demir",
-    role: "İş Geliştirme",
-    image: "/images/team-3.jpg",
-    bio: "Sponsorluk anlaşmaları ve stratejik ortaklıklar konusunda deneyimli.",
-  },
-  {
-    id: 4,
-    name: "Elif Şahin",
-    role: "Topluluk Yöneticisi",
-    image: "/images/team-4.jpg",
-    bio: "Sosyal medya ve topluluk yönetimi konusunda uzman.",
-  },
-];
+type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
+};
 
 const AboutSection = () => {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClientComponentClient();
+  
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("team_members")
+          .select("*")
+          .order("order_index", { ascending: true });
+          
+        if (error) {
+          console.error("Error fetching team members:", error);
+          return;
+        }
+        
+        setTeamMembers(data || []);
+      } catch (error) {
+        console.error("Error fetching team members:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchTeamMembers();
+  }, [supabase]);
   return (
     <section className="section bg-white">
       <div className="container-custom">
@@ -172,27 +181,35 @@ const AboutSection = () => {
         {/* Team */}
         <div>
           <h3 className="text-2xl font-bold mb-8 text-center">Ekibimiz</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="bg-light rounded-2xl overflow-hidden text-center">
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          ) : teamMembers.length === 0 ? (
+            <p className="text-center text-gray-500">Henüz ekip üyesi eklenmemiş.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {teamMembers.map((member) => (
+                <div
+                  key={member.id}
+                  className="bg-light rounded-2xl overflow-hidden text-center">
+                  <div className="relative h-64 w-full">
+                    <Image
+                      src={member.image.startsWith("/") ? member.image : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/team-images/${member.image}`}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h4 className="font-bold text-xl mb-1">{member.name}</h4>
+                    <p className="text-primary mb-3">{member.role}</p>
+                    <p className="text-gray-600 text-sm">{member.bio}</p>
+                  </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="font-bold text-xl mb-1">{member.name}</h4>
-                  <p className="text-primary mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

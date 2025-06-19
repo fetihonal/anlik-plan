@@ -51,6 +51,9 @@ export default async function AdminLayout({
               <Link href="/admin/event-formats" className="block p-2 hover:bg-gray-700 rounded">Etkinlik Formatları</Link>
             </li>
             <li>
+              <Link href="/admin/team-members" className="block p-2 hover:bg-gray-700 rounded">Ekip Üyeleri</Link>
+            </li>
+            <li>
               <Link href="/admin/users" className="block p-2 hover:bg-gray-700 rounded">Users</Link>
             </li>
             <li>
