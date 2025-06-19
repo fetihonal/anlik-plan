@@ -34,16 +34,6 @@ const CommunitySection = () => {
   return (
     <section className="section bg-white">
       <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-dark">
-            Topluluğumuza Katıl
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Şehrin en samimi ve eğlenceli topluluğuna katılarak yeni
-            arkadaşlıklar kurun ve unutulmaz deneyimler yaşayın.
-          </p>
-        </div>
-
         {/* Community Groups */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* WhatsApp Group */}
@@ -125,7 +115,9 @@ const CommunitySection = () => {
                   </svg>
                 </div>
 
-                <p className="text-gray-600 mb-6 leading-relaxed">{testimonial.content}</p>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  {testimonial.content}
+                </p>
 
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full overflow-hidden relative mr-4">
@@ -148,7 +140,9 @@ const CommunitySection = () => {
 
         {/* CTA */}
         <div className="text-center mt-8">
-          <Link href="/topluluk" className="btn-primary shadow-md hover:shadow-lg">
+          <Link
+            href="/topluluk"
+            className="btn-primary shadow-md hover:shadow-lg">
             Topluluğumuzu Keşfet
           </Link>
         </div>

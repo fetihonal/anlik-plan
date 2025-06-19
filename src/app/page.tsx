@@ -17,8 +17,7 @@ export default function Home() {
         <UpcomingEvents />
         <EventFormats />
         <CommunitySection />
-        <AboutSection />
-        <SponsorshipSection />
+
         <ContactSection />
       </main>
       <Footer />

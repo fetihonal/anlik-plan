@@ -18,6 +18,15 @@ export type Profile = {
   updated_at: string;
 };
 
+export type EventFormat = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  created_at?: string;
+  updated_at?: string;
+};
+
 export type Event = {
   id: string;
   title: string;

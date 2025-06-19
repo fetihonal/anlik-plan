@@ -1,9 +1,6 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Event } from '@/lib/supabase';
+import { Event, createServerClient } from '@/lib/supabase';
 
 // Fallback events data if no events are provided via props
 const fallbackEvents = [
@@ -77,13 +74,38 @@ const fallbackEvents = [
   },
 ];
 
-interface UpcomingEventsProps {
-  events?: Event[];
+async function getUpcomingEvents(): Promise<Event[]> {
+  const supabase = createServerClient();
+  
+  try {
+    const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .eq('is_published', true)
+      .gte('date', today) // Only get events with dates greater than or equal to today
+      .order('date', { ascending: true }) // Order by date ascending
+      .limit(4); // Limit to 4 events
+    
+    if (error) {
+      console.error('Error fetching upcoming events:', error);
+      return [];
+    }
+    
+    // Return events directly as they match the Event type
+    return data;
+  } catch (error) {
+    console.error('Error in getUpcomingEvents:', error);
+    return [];
+  }
 }
 
-const UpcomingEvents = ({ events }: UpcomingEventsProps) => {
-  // Use provided events or fallback to sample data
-  const displayEvents = events && events.length > 0 ? events : fallbackEvents;
+const UpcomingEvents = async () => {
+  const events = await getUpcomingEvents();
+  
+  // Use fetched events or fallback to sample data if no events are returned
+  const displayEvents = events.length > 0 ? events : fallbackEvents;
   return (
     <section className="section bg-light">
       <div className="container-custom">
@@ -106,7 +128,7 @@ const UpcomingEvents = ({ events }: UpcomingEventsProps) => {
                   {event.category}
                 </div>
                 <Image
-                  src={event.images[0] || '/images/event-placeholder.jpg'}
+                  src={Array.isArray(event.images) && event.images.length > 0 ? event.images[0] : '/images/event-placeholder.jpg'}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -131,7 +153,7 @@ const UpcomingEvents = ({ events }: UpcomingEventsProps) => {
                   <span className="text-sm">{event.location}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-accent">Son {event.spotsLeft} kontenjan</span>
+                  <span className="text-sm text-accent">Son {event.spots_left} kontenjan</span>
                   <Link href={`/etkinlikler/${event.id}`} className="text-primary font-medium hover:underline">
                     Detaylar →
                   </Link>
