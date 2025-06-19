@@ -41,6 +41,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'hero-pattern': "linear-gradient(rgba(62, 207, 142, 0.7), rgba(99, 102, 241, 0.7))",
         'gradient-dark': "linear-gradient(to right, #0F172A, #1E293B)",
+        'wave-gradient': "linear-gradient(90deg, #10B981 0%, #38BDF8 50%, #8B5CF6 100%)",
       },
     },
   },
