@@ -3,13 +3,19 @@ import Link from 'next/link';
 
 export default async function EventsPage() {
   // Create and await the Supabase client
-  const supabase = await createServerSupabaseClient();
+  const supabase = createServerSupabaseClient();
   
   // Get all events
-  const { data: events } = await supabase
+  const { data: events, error } = await supabase
     .from('events')
     .select('*')
-    .order('start_time', { ascending: false });
+    .order('date', { ascending: false });
+    
+  if (error) {
+    console.error('Error fetching events:', error);
+  }
+  
+  console.log('Admin events:', events);
   
   return (
     <div>
@@ -42,8 +48,8 @@ export default async function EventsPage() {
                 events.map((event) => (
                   <tr key={event.id} className="border-b hover:bg-gray-50">
                     <td className="py-3 px-4 font-medium">{event.title}</td>
-                    <td className="py-3 px-4">{event.event_type}</td>
-                    <td className="py-3 px-4">{new Date(event.start_time).toLocaleDateString()}</td>
+                    <td className="py-3 px-4">{event.category}</td>
+                    <td className="py-3 px-4">{event.date}</td>
                     <td className="py-3 px-4">{event.location || '-'}</td>
                     <td className="py-3 px-4">
                       <span className={`px-2 py-1 rounded-full text-xs ${event.is_published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>

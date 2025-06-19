@@ -28,7 +28,21 @@ async function getEvents() {
 }
 
 export default async function EventsPage() {
-  const events = await getEvents();
+  const eventsData = await getEvents();
+  
+  // Transform snake_case database fields to camelCase for the component
+  const events = eventsData.map(event => ({
+    ...event,
+    spotsLeft: event.spots_left,
+    totalSpots: event.total_spots,
+    // Ensure arrays are properly handled
+    images: Array.isArray(event.images) ? event.images : [],
+    includedItems: Array.isArray(event.included_items) ? event.included_items : [],
+    requirements: Array.isArray(event.requirements) ? event.requirements : [],
+    faq: Array.isArray(event.faq) ? event.faq : [],
+    // Ensure host object is properly structured
+    host: typeof event.host === 'object' ? event.host : { name: '', image: '', bio: '' }
+  }));
   
   return (
     <>
