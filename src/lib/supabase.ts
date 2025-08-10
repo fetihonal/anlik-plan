@@ -101,8 +101,20 @@ export const createBrowserClient = () => {
  * This should only be used in Server Components or API routes
  */
 export const createServerClient = () => {
+  // Check for environment variables
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
+    console.error('Missing Supabase environment variables');
+    
+    // Return a mock client or a client with fallback values for build time
+    // This prevents build failures but will not work in production
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('Missing Supabase environment variables');
+    } else {
+      // For development and build time, return a mock client
+      return createClient('https://example.supabase.co', 'mock-key', {
+        auth: { persistSession: false },
+      });
+    }
   }
   
   return createClient(supabaseUrl, supabaseAnonKey, {

@@ -7,6 +7,7 @@ import CommunitySection from "@/components/CommunitySection";
 import SponsorshipSection from "@/components/SponsorshipSection";
 import ContactSection from "@/components/ContactSection";
 import AboutSection from "@/components/AboutSection";
+import ClientEnvWrapper from "@/components/ClientEnvWrapper";
 
 export default function Home() {
   return (
@@ -17,10 +18,10 @@ export default function Home() {
         <UpcomingEvents />
         <EventFormats />
         <CommunitySection />
-
         <ContactSection />
       </main>
       <Footer />
+      <ClientEnvWrapper />
     </>
   );
 }

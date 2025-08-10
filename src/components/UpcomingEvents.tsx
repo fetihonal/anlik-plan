@@ -75,9 +75,14 @@ const fallbackEvents = [
 ];
 
 async function getUpcomingEvents(): Promise<Event[]> {
-  const supabase = createServerClient();
-  
   try {
+    // Check if we're in a build environment without proper env variables
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.warn('Missing Supabase environment variables, using fallback events');
+      return [];
+    }
+    
+    const supabase = createServerClient();
     const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
     
     const { data, error } = await supabase
