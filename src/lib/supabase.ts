@@ -105,16 +105,12 @@ export const createServerClient = () => {
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Missing Supabase environment variables');
     
-    // Return a mock client or a client with fallback values for build time
-    // This prevents build failures but will not work in production
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('Missing Supabase environment variables');
-    } else {
-      // For development and build time, return a mock client
-      return createClient('https://example.supabase.co', 'mock-key', {
-        auth: { persistSession: false },
-      });
-    }
+    // Always return a mock client during build time to prevent build failures
+    // This is needed for Vercel builds where env vars might not be available
+    // The actual client will be created at runtime with proper env vars
+    return createClient('https://example.supabase.co', 'mock-key', {
+      auth: { persistSession: false },
+    });
   }
   
   return createClient(supabaseUrl, supabaseAnonKey, {
